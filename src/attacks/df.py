@@ -68,12 +68,14 @@ class DFAttack(Attack):
         criterion = nn.CrossEntropyLoss()
         optimizer = torch.optim.Adamax(model.parameters(), lr=self.args.lr0)
 
-        trainer = create_supervised_trainer(model, optimizer, criterion, self.device)
+        amp_mode = 'amp' if self.args.amp and self.device != torch.device("cpu") else None
+
+        trainer = create_supervised_trainer(model, optimizer, criterion, self.device, amp_mode=amp_mode)
         val_metrics = {
             "accuracy": WFMetric(self.nmc),
             "loss": Loss(criterion)
         }
-        val_evaluator = create_supervised_evaluator(model, metrics=val_metrics, device=self.device)
+        val_evaluator = create_supervised_evaluator(model, metrics=val_metrics, device=self.device, amp_mode=amp_mode)
 
         @trainer.on(Events.ITERATION_COMPLETED(every=self.args.log_itr_interval))
         def log_training_loss(engine: Engine):
