@@ -12,6 +12,7 @@ from torch.utils.data import DataLoader
 
 from utils.data import MyDataset
 from utils.general import parse_trace, feature_transform, get_flist_label
+from utils.metric import WFMetric
 from attacks.base import Attack
 from attacks.modules import DFNet
 
@@ -46,15 +47,19 @@ class DFAttack(Attack):
         return dataset, loader
 
     def run(self, one_fold_only: bool = False):
+        res = np.zeros(4)  # tp, fp, p, n
         sss = StratifiedShuffleSplit(n_splits=10, test_size=0.1, random_state=0)
         for fold, (train_index, test_index) in enumerate(sss.split(self.flist, self.labels)):
             if one_fold_only and fold > 0:
                 break
             train_list, train_labels = self.flist[train_index], self.labels[train_index]
             test_list, test_labels = self.flist[test_index], self.labels[test_index]
-            self.train(train_list, train_labels, test_list, test_labels)
+            res_one_fold = self.train(fold+1, train_list, train_labels, test_list, test_labels)
+            res += res_one_fold
+            print("-" * 10)
+        print("Total: tp: {:.0f}, fp: {:.0f}, p: {:.0f}, n: {:.0f}".format(res[0], res[1], res[2], res[3]))
 
-    def train(self, train_list: np.ndarray, train_labels: np.ndarray, val_list: np.ndarray, val_labels: np.ndarray):
+    def train(self, fold: int, train_list: np.ndarray, train_labels: np.ndarray, val_list: np.ndarray, val_labels: np.ndarray):
         _, train_loader = self._get_data(train_list, train_labels, is_train=True)
         _, val_loader = self._get_data(val_list, val_labels, is_train=False)
 
@@ -64,21 +69,26 @@ class DFAttack(Attack):
 
         trainer = create_supervised_trainer(model, optimizer, criterion, self.device)
         val_metrics = {
-            "accuracy": Accuracy(),
+            "accuracy": WFMetric(self.nmc),
             "loss": Loss(criterion)
         }
         val_evaluator = create_supervised_evaluator(model, metrics=val_metrics, device=self.device)
 
-        @trainer.on(Events.ITERATION_COMPLETED(every=100))
+        @trainer.on(Events.ITERATION_COMPLETED(every=50))
         def log_training_loss(engine: Engine):
             print(f"Epoch[{engine.state.epoch}], Iter[{engine.state.iteration}] Loss: {engine.state.output:.2f}")
 
         @trainer.on(Events.EPOCH_COMPLETED)
         def log_validation_results(engine: Engine):
             val_evaluator.run(val_loader)
-            metrics = val_evaluator.state.metrics
+            _metrics = val_evaluator.state.metrics
             print(
-                f"Validation Results - Epoch[{engine.state.epoch}] Avg accuracy: {metrics['accuracy']:.2f} "
-                f"Avg loss: {metrics['loss']:.2f}")
+                f"Validation Results - Fold[{fold}] Epoch[{engine.state.epoch}] |"
+                f"Avg loss: {_metrics['loss']:.2f} |"
+                f"tp: {_metrics['accuracy'][0]:4.0f} fp: {_metrics['accuracy'][1]:4.0f} "
+                f"p: {_metrics['accuracy'][2]:4.0f} n: {_metrics['accuracy'][3]:4.0f}"
+            )
 
         trainer.run(train_loader, max_epochs=self.args.epochs)
+        metrics = val_evaluator.state.metrics
+        return np.array(metrics['accuracy'])

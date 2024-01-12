@@ -43,6 +43,9 @@ def parse_arguments():
     parser.add_argument('--devices', type=str, default='0,1,2,3,4,5,6,7', help='device ids of multiple gpus')
     parser.add_argument('--amp', action='store_true', default=False, help='use mixed precision training')
     args = parser.parse_args()
+
+    # LOG
+    parser.add_argument('--verbose', action='store_true', default=False, help='print detailed performance')
     return args
 
 
