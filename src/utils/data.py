@@ -1,6 +1,6 @@
 import argparse
 import os
-from typing import Callable
+from typing import Callable, Union
 
 import numpy as np
 import torch
@@ -9,7 +9,7 @@ import torch.utils.data as Data
 
 class MyDataset(Data.Dataset):
     def __init__(self, args: argparse.Namespace, flist: np.ndarray, labels: np.ndarray,
-                 fn_extract: Callable[[str | os.PathLike, int], np.ndarray]):
+                 fn_extract: Callable[[Union[str, os.PathLike], int], np.ndarray]):
         self.args = args
         self.flist = flist
         self.labels = labels

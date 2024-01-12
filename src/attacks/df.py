@@ -1,3 +1,4 @@
+from typing import Union
 import argparse
 import os
 
@@ -30,7 +31,7 @@ class DFAttack(Attack):
         return model
 
     @staticmethod
-    def extract(data_path: str | os.PathLike, seq_length: int) -> np.ndarray:
+    def extract(data_path: Union[str, os.PathLike], seq_length: int) -> np.ndarray:
         """
         DF feature extraction for a single trace
         """

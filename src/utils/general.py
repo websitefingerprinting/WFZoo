@@ -1,6 +1,6 @@
 import os
 import random
-from typing import Tuple
+from typing import Tuple, Union
 
 import numpy as np
 import pandas as pd
@@ -80,7 +80,7 @@ def feature_transform(sample: np.ndarray, feature_type: str, seq_length: int) ->
     return np.transpose(feat, (1, 0))
 
 
-def get_flist_label(data_path: str | os.PathLike, mon_cls: int, mon_inst: int, unmon_inst: int, suffix: str = '.cell') \
+def get_flist_label(data_path: Union[str, os.PathLike], mon_cls: int, mon_inst: int, unmon_inst: int, suffix: str = '.cell') \
         -> Tuple[np.ndarray, np.ndarray]:
     """
     Generate a list of file paths and corresponding labels.
