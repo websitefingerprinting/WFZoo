@@ -2,7 +2,7 @@ import argparse
 
 import torch
 
-from attacks import DFAttack
+from attacks import DFAttack, TiktokAttack
 from utils.general import seed_everything
 
 
@@ -58,6 +58,8 @@ if __name__ == '__main__':
     attack = None
     if args.attack == 'df':
         attack = DFAttack(args)
+    elif args.attack == 'tiktok':
+        attack = TiktokAttack(args)
     else:
         raise NotImplementedError("Attack not implemented")
 

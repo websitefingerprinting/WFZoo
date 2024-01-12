@@ -1,4 +1,4 @@
-name: wf
+name: py38
 channels:
   - defaults
 dependencies:

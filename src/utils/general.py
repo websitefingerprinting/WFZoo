@@ -35,7 +35,7 @@ def feature_transform(sample: np.ndarray, feature_type: str, seq_length: int) ->
     if feature_type == 'df':
         feat = np.sign(sample[:, 1])
 
-    elif feature_type == 'tik-tok':
+    elif feature_type == 'tiktok':
         feat = sample[:, 0] * np.sign(sample[:, 1])
 
     elif feature_type == 'tam':
