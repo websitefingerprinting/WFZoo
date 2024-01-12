@@ -13,7 +13,7 @@ from torch.utils.data import DataLoader
 from attacks.base import Attack
 from attacks.modules import DFNet
 from utils.data import MyDataset
-from utils.general import parse_trace, feature_transform, get_flist_label
+from utils.general import parse_trace, feature_transform, get_flist_label, timeit
 from utils.metric import WFMetric
 
 
@@ -46,6 +46,7 @@ class DFAttack(Attack):
                             num_workers=self.args.workers)
         return dataset, loader
 
+    @timeit
     def run(self, one_fold_only: bool = False):
         res = np.zeros(4)  # tp, fp, p, n
         sss = StratifiedShuffleSplit(n_splits=10, test_size=0.1, random_state=0)

@@ -7,7 +7,7 @@ The code is tested fine with both py38 and py3.11. The conda enviroment I provid
     - [x] DF attack
     - [x] Tik-Tok attack
     - [ ] Add more attacks
-    - [ ] Implement Pytorch ``amp`` mode
+    - [x] Implement Pytorch ``amp`` mode
 - About defenses
     - [ ] FRONT
 

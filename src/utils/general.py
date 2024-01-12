@@ -1,6 +1,8 @@
 import os
 import random
-from typing import Tuple, Union
+from functools import wraps
+from time import time
+from typing import Tuple, Union, Callable, Optional, Any
 
 import numpy as np
 import pandas as pd
@@ -16,6 +18,18 @@ def seed_everything(seed: int = 42):
     torch.cuda.manual_seed_all(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
+
+
+def timeit(f: Callable):
+    @wraps(f)
+    def wrap(*args: Optional[Any], **kw: Optional[Any]) -> float:
+        ts = time()
+        result = f(*args, **kw)
+        te = time()
+        print('func:%r took: %2.4f sec' % (f.__name__, te - ts))
+        return result
+
+    return wrap
 
 
 def parse_trace(fdir: str) -> np.ndarray:
