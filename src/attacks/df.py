@@ -76,15 +76,16 @@ class DFAttack(Attack):
 
         @trainer.on(Events.ITERATION_COMPLETED(every=50))
         def log_training_loss(engine: Engine):
-            print(f"Epoch[{engine.state.epoch}], Iter[{engine.state.iteration}] Loss: {engine.state.output:.2f}")
+            print(f"Fold[{fold}] | Epoch[{engine.state.epoch}], Iter[{engine.state.iteration}] |"
+                  f" Loss: {engine.state.output:.2f}")
 
         @trainer.on(Events.EPOCH_COMPLETED)
         def log_validation_results(engine: Engine):
             val_evaluator.run(val_loader)
             _metrics = val_evaluator.state.metrics
             print(
-                f"Validation Results - Fold[{fold}] Epoch[{engine.state.epoch}] |"
-                f"Avg loss: {_metrics['loss']:.2f} |"
+                f"Validation Results - Fold[{fold}] Epoch[{engine.state.epoch}] | "
+                f"Avg loss: {_metrics['loss']:.2f} | "
                 f"tp: {_metrics['accuracy'][0]:4.0f} fp: {_metrics['accuracy'][1]:4.0f} "
                 f"p: {_metrics['accuracy'][2]:4.0f} n: {_metrics['accuracy'][3]:4.0f}"
             )
