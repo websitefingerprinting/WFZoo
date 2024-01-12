@@ -26,7 +26,9 @@ Here, A is the class number of the trace, B is the instance number of the trace.
 
 ### 3. Train and test an attack
 ```bash
-python run_attack.py  --attack df --data-path ~/somedataset/ --mon-classes 100 --mon-inst 100 --unmon-inst 10000 --open-world
+python run_attack.py  --attack df --data-path ~/somedataset/ \
+--mon-classes 100 --mon-inst 100 --unmon-inst 10000 \
+--open-world
 ```
 This command will perform a 10-cross-validation attack on the given dataset. 
 
@@ -40,7 +42,7 @@ This command will perform a 10-cross-validation attack on the given dataset.
 
 ``--unmon-inst`` specifies the number of unmonitored instances.
 
-``--open-world`` specifies the attack is open-world attack (default is closed-world attack)
+``--open-world`` makes an open-world evaluation (by default: closed-world evaluation)
 
 ``--one-fold`` only run one fold instead of 10 cross validation.
 
