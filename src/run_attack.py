@@ -42,11 +42,13 @@ def parse_arguments():
     parser.add_argument('--use_multi_gpu', action='store_true', help='use multiple gpus', default=False)
     parser.add_argument('--devices', type=str, default='0,1,2,3,4,5,6,7', help='device ids of multiple gpus')
     parser.add_argument('--amp', action='store_true', default=False, help='use mixed precision training')
-    args = parser.parse_args()
 
     # LOG
     parser.add_argument('--verbose', action='store_true', default=False, help='print detailed performance')
-    return args
+    parser.add_argument('--log_itr_interval', type=int, default=100, help='log iteration interval')
+
+    _args = parser.parse_args()
+    return _args
 
 
 if __name__ == '__main__':
@@ -60,4 +62,3 @@ if __name__ == '__main__':
         raise NotImplementedError("Attack not implemented")
 
     attack.run(args.one_fold)
-    torch.cuda.empty_cache()

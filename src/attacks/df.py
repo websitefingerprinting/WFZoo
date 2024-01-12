@@ -74,7 +74,7 @@ class DFAttack(Attack):
         }
         val_evaluator = create_supervised_evaluator(model, metrics=val_metrics, device=self.device)
 
-        @trainer.on(Events.ITERATION_COMPLETED(every=50))
+        @trainer.on(Events.ITERATION_COMPLETED(every=self.args.log_itr_interval))
         def log_training_loss(engine: Engine):
             print(f"Fold[{fold}] | Epoch[{engine.state.epoch}], Iter[{engine.state.iteration}] |"
                   f" Loss: {engine.state.output:.2f}")
@@ -92,4 +92,6 @@ class DFAttack(Attack):
 
         trainer.run(train_loader, max_epochs=self.args.epochs)
         metrics = val_evaluator.state.metrics
+
+        torch.cuda.empty_cache()
         return np.array(metrics['accuracy'])
