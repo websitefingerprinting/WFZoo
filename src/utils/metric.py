@@ -1,7 +1,7 @@
-from ignite.metrics import Metric
-
 from typing import Union
+
 import torch
+from ignite.metrics import Metric
 
 
 class WFMetric(Metric):
@@ -20,7 +20,7 @@ class WFMetric(Metric):
         self._fp = 0
         super(WFMetric, self).reset()
 
-    def update(self, output):
+    def update(self, output: tuple):
         y_pred, y = output[0].detach(), output[1].detach()
 
         indices = torch.argmax(y_pred, dim=1)

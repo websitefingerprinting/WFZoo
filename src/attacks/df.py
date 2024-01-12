@@ -1,20 +1,20 @@
-from typing import Union
 import argparse
 import os
+from typing import Union
 
 import numpy as np
 import torch
 import torch.nn as nn
 from ignite.engine import Engine, Events, create_supervised_trainer, create_supervised_evaluator
-from ignite.metrics import Accuracy, Loss
+from ignite.metrics import Loss
 from sklearn.model_selection import StratifiedShuffleSplit
 from torch.utils.data import DataLoader
 
+from attacks.base import Attack
+from attacks.modules import DFNet
 from utils.data import MyDataset
 from utils.general import parse_trace, feature_transform, get_flist_label
 from utils.metric import WFMetric
-from attacks.base import Attack
-from attacks.modules import DFNet
 
 
 class DFAttack(Attack):
@@ -54,12 +54,13 @@ class DFAttack(Attack):
                 break
             train_list, train_labels = self.flist[train_index], self.labels[train_index]
             test_list, test_labels = self.flist[test_index], self.labels[test_index]
-            res_one_fold = self.train(fold+1, train_list, train_labels, test_list, test_labels)
+            res_one_fold = self.train(fold + 1, train_list, train_labels, test_list, test_labels)
             res += res_one_fold
             print("-" * 10)
         print("Total: tp: {:.0f}, fp: {:.0f}, p: {:.0f}, n: {:.0f}".format(res[0], res[1], res[2], res[3]))
 
-    def train(self, fold: int, train_list: np.ndarray, train_labels: np.ndarray, val_list: np.ndarray, val_labels: np.ndarray):
+    def train(self, fold: int, train_list: np.ndarray, train_labels: np.ndarray, val_list: np.ndarray,
+              val_labels: np.ndarray):
         _, train_loader = self._get_data(train_list, train_labels, is_train=True)
         _, val_loader = self._get_data(val_list, val_labels, is_train=False)
 
