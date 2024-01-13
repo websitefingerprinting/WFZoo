@@ -1,6 +1,6 @@
 # WFZoo： A Toolbox for SOTA Website Fingerprinting Attacks and Defenses
 Since my previous toolbox is not well organized and out-of-date (written in keras and py37), I decide to rewrite it. This toolbox is still under development. I will add more attacks and defenses in the future.
-The code is tested fine with both py38 and py3.11. The conda enviroment I provided is based on py3.8 with pytorch 2.0 and cuda 11.
+I tested the code under both Python 3.8 and Python 3.11. The conda environment I provided is based on Python 3.8 with pytorch 2.0 and cuda 11.
 
 ## TODO List
 - About attacks
@@ -46,6 +46,6 @@ This command will perform a 10-cross-validation attack on the given dataset.
 
 ``--one-fold`` only run one fold instead of 10 cross validation.
 
-``--suffix`` specifies the suffix of each file in the dataset (By default: ".cell"). 
-Change it if your dataset is not end with ".cell".
+``--suffix`` specifies the suffix of each file in the dataset (By default: `.cell`). 
+Change it if your dataset is not end with `.cell`.
 
