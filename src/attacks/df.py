@@ -49,7 +49,7 @@ class DFAttack(Attack):
     @timeit
     def run(self, one_fold_only: bool = False):
         res = np.zeros(4)  # tp, fp, p, n
-        sss = StratifiedShuffleSplit(n_splits=10, test_size=0.1, random_state=0)
+        sss = StratifiedShuffleSplit(n_splits=10, test_size=0.1)
         for fold, (train_index, test_index) in enumerate(sss.split(self.flist, self.labels)):
             if one_fold_only and fold > 0:
                 break
