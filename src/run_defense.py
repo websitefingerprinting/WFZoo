@@ -5,7 +5,7 @@ from typing import List, Union
 import numpy as np
 
 from defenses import FrontDefense
-from utils.general import get_flist_label
+from utils.general import get_flist_label, timeit
 
 
 def parse_arguments():
@@ -38,6 +38,7 @@ def parse_arguments():
     return _args
 
 
+@timeit
 def parallel_simulate(_flist: Union[List[str], np.ndarray]):
     with Pool(args.workers) as p:
         p.map(defense.simulate, _flist)
