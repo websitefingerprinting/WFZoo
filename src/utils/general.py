@@ -156,7 +156,7 @@ def get_flist_label(data_path: Union[str, os.PathLike], mon_cls: int, mon_inst: 
     return np.array(flist), np.array(labels)
 
 
-def init_directories(output_parent_dir: Union[str, os.PathLike], defense_name: str):
+def init_directories(output_parent_dir: Union[str, os.PathLike], defense_name: str) -> str:
     # Create a results dir if it doesn't exist yet
     if not os.path.exists(output_parent_dir):
         os.makedirs(output_parent_dir)

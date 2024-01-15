@@ -32,7 +32,7 @@ class TamarawDefense(Defense):
             np.savetxt(dump_dir, trace3, fmt='%.6f\t%d')
         return trace3
 
-    def pad(self, trace: Union[np.array, list]):
+    def pad(self, trace: Union[np.array, list]) -> np.ndarray:
         # input is the reordered real packet list
         # output the padded list both in the middle and the end
         # always assume the first packet is an outgoing one
@@ -72,7 +72,7 @@ class TamarawDefense(Defense):
         assert len(np.where(trace_pad[:, 1] == -1)[0]) == len(incoming_real)
         return trace_pad
 
-    def reorder(self, list1: Union[np.array, list]):
+    def reorder(self, list1: np.ndarray) -> np.ndarray:
         T = [self.config.rho_client, self.config.rho_server]
         strategy = self.config.strategy
 
@@ -97,7 +97,7 @@ class TamarawDefense(Defense):
             last[cursign] = timestamp
         list2 = sorted(list2, key=lambda l: l[0])
         assert len(list2) == len(list1)
-        return list2
+        return np.array(list2)
 
     @staticmethod
     def find(t, rho, is_edge):

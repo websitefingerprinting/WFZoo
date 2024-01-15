@@ -61,7 +61,7 @@ class DFAttack(Attack):
         self.logger.info("Total: tp: {:.0f}, fp: {:.0f}, p: {:.0f}, n: {:.0f}".format(res[0], res[1], res[2], res[3]))
 
     def train(self, fold: int, train_list: np.ndarray, train_labels: np.ndarray, val_list: np.ndarray,
-              val_labels: np.ndarray):
+              val_labels: np.ndarray) -> np.ndarray:
         _, train_loader = self._get_data(train_list, train_labels, is_train=True)
         _, val_loader = self._get_data(val_list, val_labels, is_train=False)
 
