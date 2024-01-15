@@ -78,7 +78,7 @@ class DFAttack(Attack):
         }
         val_evaluator = create_supervised_evaluator(model, metrics=val_metrics, device=self.device, amp_mode=amp_mode)
 
-        @trainer.on(Events.ITERATION_COMPLETED(every=self.args.log_itr_interval))
+        @trainer.on(Events.EPOCH_COMPLETED)
         def log_training_loss(engine: Engine):
             self.logger.info(f"Fold[{fold}] | Epoch[{engine.state.epoch}], Iter[{engine.state.iteration}] |"
                              f" Loss: {engine.state.output:.2f}")
