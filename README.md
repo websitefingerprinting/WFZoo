@@ -10,6 +10,7 @@ I tested the code under both Python 3.8 and Python 3.11. The conda environment I
     - [x] Implement Pytorch ``amp`` mode
 - About defenses
     - [x] FRONT
+    - [x] Tamaraw
 
 ## How to use
 ### 1. Install dependencies
@@ -24,7 +25,7 @@ It has been a convention to name a trace as "A-B.cell" or "C.cell".
 Here, A is the class number of the trace, B is the instance number of the trace. 
 "C.cell" is the C-th non-monitored trace in the dataset.
 
-### 3. Train and test an attack
+### 3. Train and Test an Attack
 ```bash
 python run_attack.py  --attack df --data-path ~/somedataset/ \
 --mon-classes 100 --mon-inst 100 --unmon-inst 10000 \
@@ -49,3 +50,9 @@ This command will perform a 10-cross-validation attack on the given dataset.
 ``--suffix`` specifies the suffix of each file in the dataset (By default: `.cell`). 
 Change it if your dataset is not end with `.cell`.
 
+### 4. Simulate a Defense
+```bash
+python run_defense.py --defense front --data-path ~/somedataset/ \
+--config-path ./defenses/config/front.ini \
+--mon-classes 100 --mon-inst 100 --unmon-inst 10000 --open-world
+```

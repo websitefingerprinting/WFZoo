@@ -33,3 +33,24 @@ class FrontConfig(DefenseConfig):
         assert self.n_client > 1, "client_n should be larger than 1"
         assert self.n_server > 1, "server_n should be larger than 1"
         assert self.start_t >= 0, "start_t should be positive"
+
+
+class TamarawConfig(DefenseConfig):
+    def __init__(self, args: argparse.Namespace):
+        super().__init__(args)
+        self.rho_client = None
+        self.rho_server = None
+        self.lpad = None
+        self.strategy = None
+
+    def load_config(self):
+        self.config_parser.read(self.args.config_path)
+        self.rho_client = self.config_parser.getfloat(self.config_section, 'rho_client')
+        self.rho_server = self.config_parser.getfloat(self.config_section, 'rho_server')
+        self.lpad = self.config_parser.getint(self.config_section, 'lpad')
+        self.strategy = self.config_parser.get(self.config_section, 'strategy')
+
+        assert self.rho_client > 0, "rho_client should be positive"
+        assert self.rho_server > 0, "rho_server should be positive"
+        assert self.lpad >= 0, "lpad should be positive"
+        assert self.strategy in ['optimistic', 'pessimistic'], "strategy should be optimistic or pessimistic"

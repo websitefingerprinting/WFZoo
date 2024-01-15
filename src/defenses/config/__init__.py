@@ -1,1 +1,1 @@
-from .config import FrontConfig
+from .config import FrontConfig, TamarawConfig

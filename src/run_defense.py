@@ -4,13 +4,13 @@ from typing import List, Union
 
 import numpy as np
 
-from defenses import FrontDefense
+from defenses import FrontDefense, TamarawDefense
 from utils.general import get_flist_label, timeit
 
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='WF transfer project')
-    parser.add_argument('--defense', choices=['front'], help='choose the defense')
+    parser.add_argument('--defense', choices=['front', 'tamaraw'], help='choose the defense')
 
     # paths and file config
     parser.add_argument('--data-path', type=str, help="data path")
@@ -48,11 +48,13 @@ if __name__ == '__main__':
     args = parse_arguments()
     if args.defense == 'front':
         defense = FrontDefense(args)
+    elif args.defense == 'tamaraw':
+        defense = TamarawDefense(args)
     else:
         raise NotImplementedError("Attack not implemented")
 
     if not args.open_world:
         args.unmon_inst = 0
     flist, _ = get_flist_label(args.data_path, args.mon_classes, args.mon_inst, args.unmon_inst, args.suffix)
-    defense.logger.info("Simulating {} files...".format(len(flist)))
+    defense.logger.info("Simulating {} files using {}...".format(len(flist), args.defense))
     parallel_simulate(flist)

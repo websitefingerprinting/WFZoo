@@ -81,7 +81,7 @@ class DFAttack(Attack):
         @trainer.on(Events.ITERATION_COMPLETED(every=self.args.log_itr_interval))
         def log_training_loss(engine: Engine):
             self.logger.info(f"Fold[{fold}] | Epoch[{engine.state.epoch}], Iter[{engine.state.iteration}] |"
-                  f" Loss: {engine.state.output:.2f}")
+                             f" Loss: {engine.state.output:.2f}")
 
         @trainer.on(Events.EPOCH_COMPLETED)
         def log_validation_results(engine: Engine):
