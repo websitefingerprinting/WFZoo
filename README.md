@@ -9,7 +9,7 @@ I tested the code under both Python 3.8 and Python 3.11. The conda environment I
     - [ ] Add more attacks
     - [x] Implement Pytorch ``amp`` mode
 - About defenses
-    - [ ] FRONT
+    - [x] FRONT
 
 ## How to use
 ### 1. Install dependencies

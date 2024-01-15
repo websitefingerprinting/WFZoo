@@ -1,6 +1,7 @@
 import os
 import random
 from functools import wraps
+from time import strftime
 from time import time
 from typing import Tuple, Union, Callable, Optional, Any
 
@@ -38,6 +39,7 @@ def parse_trace(fdir: str) -> np.ndarray:
     """
     trace = pd.read_csv(fdir, delimiter="\t", header=None)
     trace = np.array(trace)
+    trace[:, 0] -= trace[0, 0]  # make sure the first packet starts at 0
     return trace
 
 
@@ -122,3 +124,15 @@ def get_flist_label(data_path: Union[str, os.PathLike], mon_cls: int, mon_inst: 
 
     assert len(flist) > 0, "No files found in {}!".format(data_path)
     return np.array(flist), np.array(labels)
+
+
+def init_directories(output_parent_dir: Union[str, os.PathLike], defense_name: str):
+    # Create a results dir if it doesn't exist yet
+    if not os.path.exists(output_parent_dir):
+        os.makedirs(output_parent_dir)
+
+    # Define output directory
+    timestamp = strftime('%m%d_%H%M%S')
+    output_dir = os.path.join(output_parent_dir, defense_name + '_' + timestamp)
+    os.makedirs(output_dir)
+    return output_dir
