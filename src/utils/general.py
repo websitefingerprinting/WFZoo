@@ -33,13 +33,43 @@ def timeit(f: Callable):
     return wrap
 
 
-def parse_trace(fdir: str) -> np.ndarray:
+def parse_trace(fdir: str, sanity_check: bool = True) -> np.ndarray:
     """
     Parse a trace file based on our predefined format
     """
     trace = pd.read_csv(fdir, delimiter="\t", header=None)
     trace = np.array(trace)
-    trace[:, 0] -= trace[0, 0]  # make sure the first packet starts at 0
+
+    if sanity_check:
+        # it is possible the trace has a long tail
+        # if there is a time gap between two bursts larger than CUT_OFF_THRESHOULD
+        # We cut off the trace here sicne it could be a long timeout or
+        # maybe the loading is already finished
+        # Set a very conservative value
+        CUT_OFF_THRESHOLD = 15
+        start, end = 0, len(trace)
+        ipt_burst = np.diff(trace[:, 0])
+        ipt_outlier_inds = np.where(ipt_burst > CUT_OFF_THRESHOLD)[0]
+
+        if len(ipt_outlier_inds) > 0:
+            outlier_ind_first = ipt_outlier_inds[0]
+            if outlier_ind_first < 50:
+                start = outlier_ind_first + 1
+            outlier_ind_last = ipt_outlier_inds[-1]
+            if outlier_ind_last > 50:
+                end = outlier_ind_last + 1
+        trace = trace[start:end].copy()
+
+        # remove the first few lines that are incoming packets
+        start = -1
+        for time, size in trace:
+            start += 1
+            if size > 0:
+                break
+
+        trace = trace[start:].copy()
+        trace[:, 0] -= trace[0, 0]
+        assert trace[0, 0] == 0
     return trace
 
 
