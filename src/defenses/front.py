@@ -51,7 +51,7 @@ class FrontDefense(Defense):
         defended_trace = np.concatenate((trace, client_pkts, server_pkts), axis=0)
         defended_trace = defended_trace[defended_trace[:, 0].argsort(kind='mergesort')]
 
-        print("Client dummy number: {}, Server dummy number: {}".format(client_dummy_num, server_dummy_num))
+        # print("Client dummy number: {}, Server dummy number: {}".format(client_dummy_num, server_dummy_num))
 
         if dump:
             fname = data_path.split('/')[-1]
