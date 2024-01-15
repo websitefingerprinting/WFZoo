@@ -5,7 +5,7 @@ from typing import List, Union
 import numpy as np
 
 from defenses import FrontDefense
-from utils.general import seed_everything, get_flist_label
+from utils.general import get_flist_label
 
 
 def parse_arguments():
@@ -39,15 +39,12 @@ def parse_arguments():
 
 
 def parallel_simulate(_flist: Union[List[str], np.ndarray]):
-    # pay attention that Python <= 3.7 may have the same random seed for a batch of processes
-    # https://github.com/numpy/numpy/issues/9650
     with Pool(args.workers) as p:
         p.map(defense.simulate, _flist)
 
 
 if __name__ == '__main__':
     args = parse_arguments()
-    seed_everything(2024)
     if args.defense == 'front':
         defense = FrontDefense(args)
     else:
