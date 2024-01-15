@@ -17,7 +17,7 @@ def parse_arguments():
     # config-path
     parser.add_argument('--config-path', type=str, default=None, help="config path")
     parser.add_argument('--config-section', '-c', type=str, default='default', help="config section")
-    parser.add_argument('--output-dir', type=str, default='./defense_results/',
+    parser.add_argument('--output-dir', type=str, default='../defense_results/',
                         help='location of model checkpoints')
     parser.add_argument('--suffix', type=str, default='.cell', help='suffix of the output file')
     parser.add_argument('--mon-classes', default=100, type=int, help='Number of monitored classes')
@@ -53,4 +53,5 @@ if __name__ == '__main__':
     if not args.open_world:
         args.unmon_inst = 0
     flist, _ = get_flist_label(args.data_path, args.mon_classes, args.mon_inst, args.unmon_inst, args.suffix)
+    defense.logger.info("Simulating {} files...".format(len(flist)))
     parallel_simulate(flist)
