@@ -66,13 +66,13 @@ class MyMaxPool1dPadSame(nn.Module):
 
 # Convolutional neural modules (two convolutional layers)
 class DFNet(nn.Module):
-    def __init__(self, length: int, num_classes: int = 100):
+    def __init__(self, length: int, num_classes: int = 100, in_channels: int = 1):
         super(DFNet, self).__init__()
         self.length = length
         self.num_classes = num_classes
         self.layer1 = nn.Sequential(
             # nn.Conv1d(1, 32, kernel_size=9, stride=1, padding=4),
-            MyConv1dPadSame(1, 32, 8, 1),
+            MyConv1dPadSame(in_channels, 32, 8, 1),
             nn.BatchNorm1d(32),
             nn.ELU(),
             # nn.Conv1d(32, 32, kernel_size=9, stride=1, padding=4),
