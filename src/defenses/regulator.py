@@ -31,7 +31,9 @@ class RegulatorDefense(Defense):
         padded_download = np.stack((padded_download_time, padded_download_dir), axis=-1)
         padded_upload = np.stack((padded_upload_time, padded_upload_dir), axis=-1)
         defended_trace = np.concatenate((padded_download, padded_upload), axis=0)
-        defended_trace = defended_trace[defended_trace[:, 0].argsort(kind='mergesort')]
+        # sort and make sure outgoing packets are in the first
+        inds = np.lexsort((-defended_trace[:, 1], defended_trace[:, 0]))
+        defended_trace = defended_trace[inds]
 
         if dump:
             fname = data_path.split('/')[-1]
