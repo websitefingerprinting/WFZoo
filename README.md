@@ -13,6 +13,7 @@ I tested the code under both Python 3.8 and Python 3.11. The conda environment I
 - About defenses
     - [x] FRONT
     - [x] Tamaraw
+    - [x] RegulaTor
 
 ## How to use
 ### 1. Install dependencies

@@ -1,5 +1,6 @@
 import os
 import random
+from datetime import datetime
 from functools import wraps
 from time import strftime
 from time import time
@@ -19,6 +20,14 @@ def seed_everything(seed: int = 42):
     torch.cuda.manual_seed_all(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
+
+
+def set_random_seed(func):
+    def wrapper(*args, **kwargs):
+        np.random.seed(datetime.now().microsecond)
+        return func(*args, **kwargs)
+
+    return wrapper
 
 
 def timeit(f: Callable):

@@ -1,6 +1,5 @@
 import argparse
 import os
-from datetime import datetime
 from typing import Union
 
 import numpy as np
@@ -17,10 +16,6 @@ class TamarawDefense(Defense):
         self.config.load_config()
 
     def simulate(self, data_path: Union[str, os.PathLike], dump: bool = True) -> np.ndarray:
-        # pay attention that numpy may have the same random seed for a batch of multiprocessing processes
-        # https://github.com/numpy/numpy/issues/9650
-        # https://stackoverflow.com/questions/67691168/how-to-generate-different-random-values-at-each-subprocess-during-a-multiprocess
-        np.random.seed(datetime.now().microsecond)
 
         trace1 = parse_trace(data_path)
         trace2 = self.reorder(trace1)

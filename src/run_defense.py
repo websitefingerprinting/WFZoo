@@ -4,13 +4,13 @@ from typing import List, Union
 
 import numpy as np
 
-from defenses import FrontDefense, TamarawDefense
+from defenses import FrontDefense, TamarawDefense, RegulatorDefense
 from utils.general import get_flist_label, timeit
 
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='WF transfer project')
-    parser.add_argument('--defense', choices=['front', 'tamaraw'], help='choose the defense')
+    parser.add_argument('--defense', choices=['front', 'tamaraw', 'regulator'], help='choose the defense')
 
     # paths and file config
     parser.add_argument('--data-path', type=str, help="data path")
@@ -50,6 +50,8 @@ if __name__ == '__main__':
         defense = FrontDefense(args)
     elif args.defense == 'tamaraw':
         defense = TamarawDefense(args)
+    elif args.defense == 'regulator':
+        defense = RegulatorDefense(args)
     else:
         raise NotImplementedError("Attack not implemented")
 
