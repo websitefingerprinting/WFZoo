@@ -23,9 +23,7 @@ class TamarawDefense(Defense):
         trace3 = self.pad(trace2)
 
         if dump:
-            fname = data_path.split('/')[-1]
-            dump_dir = os.path.join(self.output_dir, fname)
-            np.savetxt(dump_dir, trace3, fmt='%.6f\t%d')
+            self.dump_trace(data_path, trace3)
         return trace3
 
     def pad(self, trace: Union[np.array, list]) -> np.ndarray:

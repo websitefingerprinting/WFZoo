@@ -49,7 +49,5 @@ class FrontDefense(Defense):
         # print("Client dummy number: {}, Server dummy number: {}".format(client_dummy_num, server_dummy_num))
 
         if dump:
-            fname = data_path.split('/')[-1]
-            dump_dir = os.path.join(self.output_dir, fname)
-            np.savetxt(dump_dir, defended_trace, fmt='%.6f\t%d')
+            self.dump_trace(data_path, defended_trace)
         return defended_trace

@@ -36,9 +36,7 @@ class RegulatorDefense(Defense):
         defended_trace = defended_trace[inds]
 
         if dump:
-            fname = data_path.split('/')[-1]
-            dump_dir = os.path.join(self.output_dir, fname)
-            np.savetxt(dump_dir, defended_trace, fmt='%.6f\t%d')
+            self.dump_trace(data_path, defended_trace)
         return defended_trace
 
     def regulator_download(self, target_trace: Union[np.ndarray, List]) -> (List, List, int, int):
