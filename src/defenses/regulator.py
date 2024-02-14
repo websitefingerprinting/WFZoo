@@ -116,7 +116,7 @@ class RegulatorDefense(Defense):
         return output_trace, output_trace_dir, padding_budget, padding_packets
 
     def regulator_upload_full(self, download_trace: Union[np.ndarray, List], upload_trace: Union[np.ndarray, List]) \
-            -> (List, List, int):
+            -> (np.ndarray, np.ndarray, int):
         upload_ratio = self.config.upload_ratio
         delay_cap = self.config.delay_cap
 
@@ -162,4 +162,4 @@ class RegulatorDefense(Defense):
 
         assert len(output_trace) >= len(upload_trace)
         assert len(output_trace[output_trace[:, 1] == 1]) == len(upload_trace)
-        return list(output_trace[:, 0]), list(output_trace[:, 1]), delayed_pkts_num
+        return output_trace[:, 0], output_trace[:, 1], delayed_pkts_num
