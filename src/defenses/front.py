@@ -6,7 +6,7 @@ import numpy as np
 
 from defenses.base import Defense
 from defenses.config import FrontConfig
-from utils.general import parse_trace
+from utils.general import parse_trace, set_random_seed
 
 
 class FrontDefense(Defense):
@@ -20,6 +20,7 @@ class FrontDefense(Defense):
         ts = sorted(np.random.rayleigh(wnd, n))
         return np.reshape(ts, (-1, 1))
 
+    @set_random_seed
     def simulate(self, data_path: Union[str, os.PathLike], dump: bool = True) -> np.ndarray:
         trace = parse_trace(data_path)
 

@@ -6,7 +6,7 @@ import numpy as np
 
 from defenses.base import Defense
 from defenses.config import RegulatorConfig
-from utils.general import parse_trace
+from utils.general import parse_trace, set_random_seed
 
 
 class RegulatorDefense(Defense):
@@ -15,6 +15,7 @@ class RegulatorDefense(Defense):
         self.config = RegulatorConfig(args)
         self.config.load_config()
 
+    @set_random_seed
     def simulate(self, data_path: Union[str, os.PathLike], dump: bool = True) -> np.ndarray:
         trace = parse_trace(data_path)
         # get download and upload separately

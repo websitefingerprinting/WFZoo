@@ -22,17 +22,19 @@ def seed_everything(seed: int = 42):
     torch.backends.cudnn.benchmark = False
 
 
-def set_random_seed(func):
-    def wrapper(*args, **kwargs):
+def set_random_seed(f: Callable):
+    @wraps(f)
+    def wrap(*args: Optional[Any], **kw: Optional[Any]) -> Any:
         np.random.seed(datetime.now().microsecond)
-        return func(*args, **kwargs)
+        result = f(*args, **kw)
+        return result
 
-    return wrapper
+    return wrap
 
 
 def timeit(f: Callable):
     @wraps(f)
-    def wrap(*args: Optional[Any], **kw: Optional[Any]) -> float:
+    def wrap(*args: Optional[Any], **kw: Optional[Any]) -> Any:
         ts = time()
         result = f(*args, **kw)
         te = time()
