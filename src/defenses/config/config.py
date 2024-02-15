@@ -72,6 +72,16 @@ class RegulatorConfig(DefenseConfig):
         }
 
 
+class WtfpadConfig(DefenseConfig):
+    def __init__(self, args: argparse.Namespace):
+        super().__init__(args)
+        self.converters = {}
+        self.interpolate = True
+        self.remove_tokens = True
+        self.stop_on_real = True
+        self.percentile = 0
+
+
 if __name__ == '__main__':
     # Example usage:
     args = argparse.Namespace(config_section='heavy',

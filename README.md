@@ -14,6 +14,7 @@ I tested the code under both Python 3.8 and Python 3.11. The conda environment I
     - [x] FRONT
     - [x] Tamaraw
     - [x] RegulaTor (I barely tried to optimize the author's code)
+    - [x] WTF-PAD (I did make some effort to clean up the code. Only `norm_rcv` is implemented. Still a lot of `for` loops. Do not have time to rewrite everything :( )
 
 ## How to use
 ### 1. Install dependencies

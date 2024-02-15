@@ -1,1 +1,1 @@
-from .config import FrontConfig, TamarawConfig, RegulatorConfig
+from .config import FrontConfig, TamarawConfig, RegulatorConfig, WtfpadConfig

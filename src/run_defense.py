@@ -4,13 +4,14 @@ from typing import List, Union
 
 import numpy as np
 
-from defenses import FrontDefense, TamarawDefense, RegulatorDefense
+from defenses import FrontDefense, TamarawDefense, RegulatorDefense, WtfpadDefense
 from utils.general import get_flist_label, timeit
 
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='WF transfer project')
-    parser.add_argument('--defense', choices=['front', 'tamaraw', 'regulator'], help='choose the defense')
+    parser.add_argument('--defense', choices=['wtfpad', 'front', 'tamaraw', 'regulator'],
+                        help='choose the defense')
 
     # paths and file config
     parser.add_argument('--data-path', type=str, help="data path")
@@ -46,7 +47,9 @@ def parallel_simulate(_flist: Union[List[str], np.ndarray]):
 
 if __name__ == '__main__':
     args = parse_arguments()
-    if args.defense == 'front':
+    if args.defense == 'wtfpad':
+        defense = WtfpadDefense(args)
+    elif args.defense == 'front':
         defense = FrontDefense(args)
     elif args.defense == 'tamaraw':
         defense = TamarawDefense(args)
