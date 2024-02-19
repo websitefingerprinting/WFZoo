@@ -6,8 +6,7 @@ I tested the code under both Python 3.8 and Python 3.11. The conda environment I
 - About attacks
     - [x] DF attack
     - [x] Tik-Tok attack
-    - [x] TAM attack with DF backbone
-    - [ ] TAM attack with its own backbone
+    - [x] RF attack
     - [ ] Add more attacks
     - [x] Implement Pytorch ``amp`` mode
 - About defenses
