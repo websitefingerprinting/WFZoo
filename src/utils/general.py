@@ -96,17 +96,19 @@ def feature_transform(sample: np.ndarray, feature_type: str, seq_length: int) ->
         feat = sample[:, 0] * np.sign(sample[:, 1])
 
     elif feature_type == 'tam':
-        max_load_time = 80  # s
+        max_load_time = 80.0  # s
         time_window = 0.044  # s
 
-        sample = sample[sample[:, 0] < max_load_time]
-        num_bins = int(sample[-1, 0] / time_window) + 1
+        cut_off_time = min(max_load_time, float(sample[-1, 0]))
+        num_bins = int(cut_off_time / time_window) + 1
+        bins = np.linspace(0, num_bins * time_window, num_bins).tolist() + [np.inf]
 
         outgoing = sample[np.sign(sample[:, 1]) > 0]
         incoming = sample[np.sign(sample[:, 1]) < 0]
 
-        cnt_outgoing, _ = np.histogram(outgoing[:, 0], bins=num_bins)
-        cnt_incoming, _ = np.histogram(incoming[:, 0], bins=num_bins)
+        cnt_outgoing, _ = np.histogram(outgoing[:, 0], bins=bins)
+        cnt_incoming, _ = np.histogram(incoming[:, 0], bins=bins)
+
         # merge to 2d feature
         feat = np.stack((cnt_outgoing, cnt_incoming), axis=1)
         assert feat.flatten().sum() == len(sample), \
