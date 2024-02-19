@@ -2,7 +2,7 @@ import argparse
 
 import torch
 
-from attacks import DFAttack, TiktokAttack, TamAttack
+from attacks import DFAttack, TiktokAttack, RFAttack
 from utils.general import seed_everything
 
 
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     elif args.attack == 'tiktok':
         attack = TiktokAttack(args)
     elif args.attack == 'tam':
-        attack = TamAttack(args)
+        attack = RFAttack(args)
     else:
         raise NotImplementedError("Attack not implemented")
 

@@ -1,3 +1,3 @@
 from .df import DFAttack
-from .tam import TamAttack
+from .rf import RFAttack
 from .tiktok import TiktokAttack
