@@ -4,12 +4,12 @@ from typing import Union
 
 import numpy as np
 
-from attacks import DFAttack
+from attacks.base import Attack
 from attacks.modules import RFNet
 from utils.general import parse_trace, feature_transform
 
 
-class RFAttack(DFAttack):
+class RFAttack(Attack):
     def __init__(self, args: argparse.Namespace):
         super().__init__(args)
 

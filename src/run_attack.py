@@ -8,7 +8,7 @@ from utils.general import seed_everything
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='WF transfer project')
-    parser.add_argument('--attack', choices=['df', 'tiktok', 'tam'], default='df', help='choose the attack')
+    parser.add_argument('--attack', choices=['df', 'tiktok', 'rf'], default='df', help='choose the attack')
 
     # paths and file config
     parser.add_argument('--data-path', type=str, help="data path")
@@ -60,7 +60,7 @@ if __name__ == '__main__':
         attack = DFAttack(args)
     elif args.attack == 'tiktok':
         attack = TiktokAttack(args)
-    elif args.attack == 'tam':
+    elif args.attack == 'rf':
         attack = RFAttack(args)
     else:
         raise NotImplementedError("Attack not implemented")
