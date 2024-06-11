@@ -21,7 +21,7 @@ class FrontDefense(Defense):
         return np.reshape(ts, (-1, 1))
 
     @set_random_seed
-    def simulate(self, data_path: Union[str, os.PathLike], dump: bool = True) -> np.ndarray:
+    def _simulate(self, data_path: Union[str, os.PathLike]) -> np.ndarray:
         trace = parse_trace(data_path)
 
         wnd_client = np.random.uniform(self.config.w_min, self.config.w_max)
@@ -47,7 +47,4 @@ class FrontDefense(Defense):
         defended_trace = defended_trace[defended_trace[:, 0].argsort(kind='mergesort')]
 
         # print("Client dummy number: {}, Server dummy number: {}".format(client_dummy_num, server_dummy_num))
-
-        if dump:
-            self.dump_trace(data_path, defended_trace)
         return defended_trace

@@ -16,14 +16,12 @@ class TamarawDefense(Defense):
         self.config.load_config()
 
     @set_random_seed
-    def simulate(self, data_path: Union[str, os.PathLike], dump: bool = True) -> np.ndarray:
+    def _simulate(self, data_path: Union[str, os.PathLike]) -> np.ndarray:
 
         trace1 = parse_trace(data_path)
         trace2 = self.reorder(trace1)
         trace3 = self.pad(trace2)
 
-        if dump:
-            self.dump_trace(data_path, trace3)
         return trace3
 
     def pad(self, trace: Union[np.array, list]) -> np.ndarray:

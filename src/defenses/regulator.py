@@ -16,7 +16,7 @@ class RegulatorDefense(Defense):
         self.config.load_config()
 
     @set_random_seed
-    def simulate(self, data_path: Union[str, os.PathLike], dump: bool = True) -> np.ndarray:
+    def _simulate(self, data_path: Union[str, os.PathLike]) -> np.ndarray:
         trace = parse_trace(data_path)
         # get download and upload separately
         download_packets = trace[trace[:, 1] < 0][:, 0]
@@ -35,8 +35,6 @@ class RegulatorDefense(Defense):
         inds = np.lexsort((-defended_trace[:, 1], defended_trace[:, 0]))
         defended_trace = defended_trace[inds]
 
-        if dump:
-            self.dump_trace(data_path, defended_trace)
         return defended_trace
 
     def regulator_download(self, target_trace: Union[np.ndarray, List]) -> (List, List, int, int):

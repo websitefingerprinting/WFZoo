@@ -32,7 +32,7 @@ class WtfpadDefense(Defense):
         self.hist = self.initialize_distributions(distributions)
 
     @set_random_seed
-    def simulate(self, data_path: Union[str, os.PathLike], dump: bool = True) -> np.ndarray:
+    def _simulate(self, data_path: Union[str, os.PathLike]) -> np.ndarray:
         raw_trace = parse(data_path)
         trace = Trace(raw_trace)
         flows = {IN: Flow(IN), OUT: Flow(OUT)}
@@ -62,8 +62,6 @@ class WtfpadDefense(Defense):
             defended_trace.append([packet.timestamp, packet.direction * packet.length])
         defended_trace = np.array(defended_trace)
 
-        if dump:
-            self.dump_trace(data_path, defended_trace)
         return defended_trace
 
     def add_padding(self, i, trace, flow, on):
