@@ -1,5 +1,6 @@
 import argparse
 import os
+from pathlib import Path
 from typing import Union, Optional, Any
 
 import numpy as np
@@ -14,7 +15,10 @@ class Defense(object):
         self.args = args
         self.logger = init_logger(str(self.__class__.__name__))
         self.output_dir = init_directories(args.output_dir,
-                                           str(self.__class__.__name__) + '_' + str(args.config_section))
+                                           str(Path(args.data_path).stem) + '_' +
+                                           str(self.__class__.__name__) + '_' +
+                                           str(args.config_section)
+                                           )
         self.logger.info("Output directory: {}".format(self.output_dir))
 
     def simulate(self, data_path: Union[str, os.PathLike], dump: bool = True, **kwargs: Optional[Any]) -> np.ndarray:
