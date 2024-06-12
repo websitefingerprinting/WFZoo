@@ -82,10 +82,22 @@ class WtfpadConfig(DefenseConfig):
         self.percentile = 0
 
 
+class TrafficSliverConfig(DefenseConfig):
+    def __init__(self, args: argparse.Namespace):
+        super().__init__(args)
+        self.converters = {
+            'n_circuits': int,
+            'batch_size_min': int,
+            'batch_size_max': int,
+            'latency_file_path': str,
+            'strategy': str
+        }
+
+
 if __name__ == '__main__':
     # Example usage:
-    args = argparse.Namespace(config_section='heavy',
-                              config_path='/Users/jgongac/WFZoo/src/defenses/config/regulator.ini')
-    defense_config = RegulatorConfig(args)
+    args = argparse.Namespace(config_section='default',
+                              config_path='/Users/jgongac/WFZoo/src/defenses/config/trafficsliver.ini')
+    defense_config = TrafficSliverConfig(args)
     defense_config.load_config()
     print(defense_config)

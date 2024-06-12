@@ -1,1 +1,1 @@
-from .config import FrontConfig, TamarawConfig, RegulatorConfig, WtfpadConfig
+from .config import FrontConfig, TamarawConfig, RegulatorConfig, WtfpadConfig, TrafficSliverConfig
